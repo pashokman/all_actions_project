@@ -1,10 +1,14 @@
 import allure
 from allure_commons.types import AttachmentType
+
 import pytest
+
 from selenium import webdriver
+
 from utilities.ReadConfigurations import read_configuration
+from utilities.Logger import Logger
 
-
+# screenshoot fixtures  -----------------------------------------------------------------------------------------------
 @pytest.fixture()
 def log_on_failure(request):
     yield
@@ -19,8 +23,10 @@ def pytest_runtest_makereport(item, call):
     rep = outcome.get_result()
     setattr(item, "rep_" + rep.when, rep)
     return rep
+# ----------------------------------------------------------------------------------------------------------------------
 
 
+# main driver fixture --------------------------------------------------------------------------------------------------
 browsers = read_configuration("browsers", "browser_list").split(',')
 @pytest.fixture(params=browsers)
 def driver(request):
@@ -36,10 +42,26 @@ def driver(request):
     
     driver.maximize_window()
 
+    logger = Logger(log_name='BROWSER').get_logger()
+    logger.info(driver.name)
+
     app_url = read_configuration("basic info", "url")
     driver.get(app_url)
-
+    
     yield driver
     
     driver.quit()
+# ----------------------------------------------------------------------------------------------------------------------
 
+
+# fixture for adding logs row about start and end of every test --------------------------------------------------------
+@pytest.fixture()
+def logs_for_tests(request):
+    test_name = request.function.__name__
+    logger = Logger(log_name=test_name).get_logger()
+    logger.debug('Test start.')
+
+    yield logger
+
+    logger.debug('Test completed.')
+#  ---------------------------------------------------------------------------------------------------------------------
