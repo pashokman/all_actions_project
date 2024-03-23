@@ -1,4 +1,4 @@
-This framework is a base for a new project  
+This framework is a base for a new UI test project  
 Framework based on a site - ```https://the-internet.herokuapp.com/```
 
 ## Tests that I implemented:
@@ -7,7 +7,7 @@ Classes - methods.
     + add 4 elements on a page and assert its count;
     + add 8 elements on a page and remove 5 of them (delete from last added element).
 
-## Steps to develop a framework:
+## Steps to develop a base for a framework:
 * created test functions;
 * put test functions in a test class;
 * created ```conftest.py``` file and configured a fixture to run tests in multiple browsers - ```chrome, firefox, edge```;
