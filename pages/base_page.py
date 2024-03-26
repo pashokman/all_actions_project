@@ -1,4 +1,11 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+
+from utilities.Logger import Logger
+
+
+logger_instance = Logger(log_name='Base page')
+BASEPAGE = logger_instance.get_logger()
 
 
 class BasePage:
@@ -12,21 +19,28 @@ class BasePage:
 
 
     def get_element(self, locator_name, locator_value):
-        element = None
-        if locator_name.endswith("_XPATH"):
-            element = self.driver.find_element(By.XPATH, locator_value)
-        elif locator_name.endswith("_ID"):
-            element = self.driver.find_element(By.ID, locator_value)
-        elif locator_name.endswith("_NAME"):
-            element = self.driver.find_element(By.NAME, locator_value)
-        elif locator_name.endswith("_LINK_TEXT"):
-            element = self.driver.find_element(By.LINK_TEXT, locator_value)
-        elif locator_name.endswith("_CLASS"):
-            element = self.driver.find_element(By.CLASS_NAME, locator_value)
-        elif locator_name.endswith("_CSS"):
-            element = self.driver.find_element(By.CSS_SELECTOR, locator_value)
-        
-        return element
+        try:
+            element = None
+            if locator_name.endswith("_XPATH"):
+                element = self.driver.find_element(By.XPATH, locator_value)
+            elif locator_name.endswith("_ID"):
+                element = self.driver.find_element(By.ID, locator_value)
+            elif locator_name.endswith("_NAME"):
+                element = self.driver.find_element(By.NAME, locator_value)
+            elif locator_name.endswith("_LINK_TEXT"):
+                element = self.driver.find_element(By.LINK_TEXT, locator_value)
+            elif locator_name.endswith("_CLASS"):
+                element = self.driver.find_element(By.CLASS_NAME, locator_value)
+            elif locator_name.endswith("_CSS"):
+                element = self.driver.find_element(By.CSS_SELECTOR, locator_value)
+            
+            return element
+        except NoSuchElementException as e:
+            print('Cant find element - ', e)
+            BASEPAGE.warning(f'Cant find element - {e}')
+        except Exception as e:
+            print('Non handled exception - ', e)
+            BASEPAGE.warning(f'Non handled exception - {e}')
 
 
     def get_elements_list(self, locator_name, locator_value):
