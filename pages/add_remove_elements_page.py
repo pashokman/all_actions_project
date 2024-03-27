@@ -1,6 +1,6 @@
 from pages.base_page import BasePage
 
-from utilities.Logger import Logger
+from utilities.logger import Logger
 
 
 logger_instance = Logger(log_name='Add/Remove Elements page')
@@ -22,12 +22,12 @@ class AddRemoveElementsPage(BasePage):
         while n > 0:
             self.element_click('ADD_ELEMENT_BUTTON_XPATH', self.ADD_ELEMENT_BUTTON_XPATH)
             n -= 1
-        ADD_REMOVE_ELEMENTS.debug(f"{elements_to_add} elements successfully added.")
+        ADD_REMOVE_ELEMENTS.debug(f"{elements_to_add} elements added.")
 
 
     def get_added_elements_count(self):
         elements_count = len(self.get_elements_list('ADDED_ELEMENT_CLASS', self.ADDED_ELEMENT_CLASS))
-        ADD_REMOVE_ELEMENTS.debug("Elements count received successfully.")
+        ADD_REMOVE_ELEMENTS.debug("Elements count received.")
         return elements_count
     
 
@@ -37,4 +37,4 @@ class AddRemoveElementsPage(BasePage):
         while n > 0:
             elements_list[len(elements_list) - 1].click()
             n -= 1
-        ADD_REMOVE_ELEMENTS.debug(f"{elements_to_remove} elements removed successfully.")
+        ADD_REMOVE_ELEMENTS.debug(f"{elements_to_remove} elements removed.")

@@ -5,8 +5,8 @@ import pytest
 
 from selenium import webdriver
 
-from utilities.ReadConfigurations import read_configuration
-from utilities.Logger import Logger
+from utilities.read_configurations import read_configuration
+from utilities.logger import Logger
 
 # screenshoot fixtures  -----------------------------------------------------------------------------------------------
 @pytest.fixture()

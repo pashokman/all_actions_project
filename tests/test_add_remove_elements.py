@@ -1,6 +1,6 @@
 import pytest
 
-from tests.BaseTest import BaseTest
+from tests.base_test import BaseTest
 
 from pages.home_page import HomePage
 

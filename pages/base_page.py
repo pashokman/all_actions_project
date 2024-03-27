@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-from utilities.Logger import Logger
+from utilities.logger import Logger
 
 
 logger_instance = Logger(log_name='Base page')
@@ -81,3 +81,8 @@ class BasePage:
     def retrive_element_text(self, locator_name, locator_value):
         element = self.get_element(locator_name, locator_value)
         return element.text
+    
+
+    def enter_file_into_field(self, locator_name, locator_value, file_path):
+        element = self.get_element(locator_name, locator_value)
+        element.send_keys(file_path)
