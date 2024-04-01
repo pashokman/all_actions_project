@@ -6,6 +6,7 @@ from pages.base_page import BasePage
 from pages.add_remove_elements_page import AddRemoveElementsPage
 from pages.file_upload_page import FileUploadPage
 from pages.file_download_page import FileDownloadPage
+from pages.basic_auth_page import BasicAuthPage
 
 
 from utilities.logger import Logger
@@ -42,3 +43,9 @@ class HomePage(BasePage):
         self.element_click('FILE_DOWNLOAD_PAGE_LINK_TEXT', self.FILE_DOWNLOAD_PAGE_LINK_TEXT)
         HOME_PAGE.debug('Navigation to file download page.')
         return FileDownloadPage(self.driver)
+
+
+    def navigate_to_basic_auth_page(self, login, pwd):
+        self.driver.get(f'https://{login}:{pwd}@the-internet.herokuapp.com/basic_auth')
+        HOME_PAGE.debug('Navigation to basic auth page.')
+        return BasicAuthPage(self.driver)

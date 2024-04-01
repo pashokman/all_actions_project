@@ -115,6 +115,9 @@ def delete_file(*file_path):
         return False
 ```
 
+* basic auth in window pop-up;  
+To make this action we should add login and password before the url, like - ```https://{login}:{pwd}@{url}```.
+
 ## Run
 To run tests and make an allure report, run first command in VSCode terminal and second in ```cmd``` from root project folder.
 ```
