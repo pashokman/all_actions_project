@@ -26,3 +26,7 @@ class FileUploadSuccessfulPage(BasePage):
         file_name = self.retrive_element_text('UPLOADED_FILE_ID', self.UPLOADED_FILE_ID)
         FILE_UPLOAD_SUCCESSFUL.debug('Got file name.')
         return file_name
+    
+    
+    def return_to_home_page(self):
+        self.return_to_previous_page(2)

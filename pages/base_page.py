@@ -1,6 +1,9 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from utilities.logger import Logger
 
 
@@ -19,20 +22,22 @@ class BasePage:
 
 
     def get_element(self, locator_name, locator_value):
+        wait = WebDriverWait(self.driver, 10)
+
         try:
             element = None
             if locator_name.endswith("_XPATH"):
-                element = self.driver.find_element(By.XPATH, locator_value)
+                element = wait.until(EC.element_to_be_clickable((By.XPATH, locator_value)))
             elif locator_name.endswith("_ID"):
-                element = self.driver.find_element(By.ID, locator_value)
+                element = wait.until(EC.element_to_be_clickable((By.ID, locator_value)))
             elif locator_name.endswith("_NAME"):
-                element = self.driver.find_element(By.NAME, locator_value)
+                element = wait.until(EC.element_to_be_clickable((By.NAME, locator_value)))
             elif locator_name.endswith("_LINK_TEXT"):
-                element = self.driver.find_element(By.LINK_TEXT, locator_value)
+                element = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, locator_value)))
             elif locator_name.endswith("_CLASS"):
-                element = self.driver.find_element(By.CLASS_NAME, locator_value)
+                element = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, locator_value)))
             elif locator_name.endswith("_CSS"):
-                element = self.driver.find_element(By.CSS_SELECTOR, locator_value)
+                element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, locator_value)))
             
             return element
         except NoSuchElementException as e:
@@ -44,19 +49,21 @@ class BasePage:
 
 
     def get_elements_list(self, locator_name, locator_value):
+        wait = WebDriverWait(self.driver, 10)
         elements = None
+        
         if locator_name.endswith("_XPATH"):
-            elements = self.driver.find_elements(By.XPATH, locator_value)
+            elements = wait.until(EC.presence_of_all_elements_located((By.XPATH, locator_value)))
         elif locator_name.endswith("_ID"):
-            elements = self.driver.find_elements(By.ID, locator_value)
+            elements = wait.until(EC.presence_of_all_elements_located((By.ID, locator_value)))
         elif locator_name.endswith("_NAME"):
-            elements = self.driver.find_elements(By.NAME, locator_value)
+            elements = wait.until(EC.presence_of_all_elements_located((By.NAME, locator_value)))
         elif locator_name.endswith("_LINK_TEXT"):
-            elements = self.driver.find_elements(By.LINK_TEXT, locator_value)
+            elements = wait.until(EC.presence_of_all_elements_located((By.LINK_TEXT, locator_value)))
         elif locator_name.endswith("_CLASS"):
-            elements = self.driver.find_elements(By.CLASS_NAME, locator_value)
+            elements = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, locator_value)))
         elif locator_name.endswith("_CSS"):
-            elements = self.driver.find_elements(By.CSS_SELECTOR, locator_value)
+            elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, locator_value)))
         
         return elements
     
@@ -86,3 +93,8 @@ class BasePage:
     def enter_file_into_field(self, locator_name, locator_value, file_path):
         element = self.get_element(locator_name, locator_value)
         element.send_keys(file_path)
+
+    
+    def return_to_previous_page(self, count):
+        for i in range(count):
+            self.driver.back()

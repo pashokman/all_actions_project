@@ -8,7 +8,7 @@ Classes - methods.
     + add 8 elements on a page and remove 5 of them (delete from last added element).
 * TestUploadDownload
     + upload file and check header and file name on successful upload page;
-    + 
+    + download file and check if file exists on a disk, delete file and check if file exists on a disk;
 
 ## Actions that I trained to automate:
 * open browser;
@@ -16,9 +16,104 @@ Classes - methods.
 * get an element;
 * get a list of elements;
 * click on element;
-* upload file;
 * get element text;
+* upload file;  
+To make this action, we should use method ```send_keys``` and put into this method ```file_path```, and before it we should specify the absolute file path.
+```
+import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FILE_UPLOAD_PATH = os.path.join(BASE_DIR, 'files', 'file_to_upload.txt')
+
+element.send_keys(FILE_UPLOAD_PATH)
+```
+
+* download file;  
+To make this action, we should add options to the driver for download files:
+```
+from selenium import webdriver
+
+from selenium.webdriver.chrome.options import Options as COptions
+from selenium.webdriver.firefox.options import Options as FOptions
+from selenium.webdriver.edge.options import Options as EOptions
+
+    if request.param == "chrome":
+        chrome_options = COptions()
+        chrome_options.add_experimental_option('prefs', {'download.default_directory': FILES_FOLDER_PATH})
+        driver = webdriver.Chrome(options=chrome_options)
+    elif request.param == "firefox":
+        firefox_options = FOptions()
+        firefox_options.set_preference('browser.download.folderList', 2)
+        firefox_options.set_preference('browser.download.manager.showWhenStarting', False)
+        firefox_options.set_preference('browser.download.dir', FILES_FOLDER_PATH)
+        firefox_options.set_preference('browser.helperApps.neverAsk.saveToDisk', 'application/pdf')
+        driver = webdriver.Firefox(options=firefox_options)
+    elif request.param == "edge":
+        edge_options = EOptions()
+        edge_options.add_experimental_option('prefs', {'download.default_directory': FILES_FOLDER_PATH})
+        driver = webdriver.Edge(options=edge_options)
+```
+
+* wait file for download;  
+To make this action we should create the untility and use it after clicking on file download button:
+```
+import os
+import time
+
+def wait_for_download(download_path, timeout):
+    # Get the initial set of files in the directory
+    initial_files = set(os.listdir(download_path))
+    
+    # Wait until a new file appears or until timeout is reached
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        current_files = set(os.listdir(download_path))
+        new_files = current_files - initial_files
+        if new_files:
+            return True
+        time.sleep(1)  # Check every second
+    return False
+```
+
+* get file name from a path;  
+To make this action we should get full path to the file (from root project folder) and ```split``` full path and get last item:
+```
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+def get_file_name_from_path(path):
+    return path.split('\\')[-1]
+```
+
+* check if file exists on a disk;  
+To make this action we should get full path to the file (from root project folder) and use function ```os.path.exists(path)``` to check if file or path exists:
+```
+import os
+
+def get_full_path(*path_from_base_folder):
+    # should pass path like this - 'files', 'file.py'
+    return os.path.join(BASE_DIR, *path_from_base_folder)
+
+def is_file_path_exist(*file_path):
+    path = get_full_path(*file_path)
+    if os.path.exists(path):
+        return True
+    else:
+        return False
+```
+
+* delete file from a disk;  
+To make this action we should check if file exists and if it's true, we should remove it using function ```os.remove(path)```:
+```
+def delete_file(*file_path):
+    path = get_full_path(*file_path)
+    if os.path.exists(path):
+        os.remove(path)
+        return True
+    else:
+        return False
+```
 
 ## Run
 To run tests and make an allure report, run first command in VSCode terminal and second in ```cmd``` from root project folder.

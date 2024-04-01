@@ -1,12 +1,18 @@
+from selenium import webdriver
+
+from selenium.webdriver.chrome.options import Options as COptions
+from selenium.webdriver.firefox.options import Options as FOptions
+from selenium.webdriver.edge.options import Options as EOptions
+
 import allure
 from allure_commons.types import AttachmentType
 
 import pytest
 
-from selenium import webdriver
-
 from utilities.read_configurations import read_configuration
 from utilities.logger import Logger
+from utilities.work_with_files.get_specific_path import get_full_path
+
 
 # screenshoot fixtures  -----------------------------------------------------------------------------------------------
 @pytest.fixture()
@@ -26,17 +32,29 @@ def pytest_runtest_makereport(item, call):
 # ----------------------------------------------------------------------------------------------------------------------
 
 
+
 # main driver fixture --------------------------------------------------------------------------------------------------
+FILES_FOLDER_PATH = get_full_path('files', 'download')
 browsers = read_configuration("browsers", "browser_list").split(',')
+
 @pytest.fixture(params=browsers)
 def driver(request):
     global driver
     if request.param == "chrome":
-        driver = webdriver.Chrome()
+        chrome_options = COptions()
+        chrome_options.add_experimental_option('prefs', {'download.default_directory': FILES_FOLDER_PATH})
+        driver = webdriver.Chrome(options=chrome_options)
     elif request.param == "firefox":
-        driver = webdriver.Firefox()
+        firefox_options = FOptions()
+        firefox_options.set_preference('browser.download.folderList', 2)
+        firefox_options.set_preference('browser.download.manager.showWhenStarting', False)
+        firefox_options.set_preference('browser.download.dir', FILES_FOLDER_PATH)
+        firefox_options.set_preference('browser.helperApps.neverAsk.saveToDisk', 'application/pdf')
+        driver = webdriver.Firefox(options=firefox_options)
     elif request.param == "edge":
-        driver = webdriver.Edge()
+        edge_options = EOptions()
+        edge_options.add_experimental_option('prefs', {'download.default_directory': FILES_FOLDER_PATH})
+        driver = webdriver.Edge(options=edge_options)
     else:
         raise ValueError(f"Unsupported browser: {request.param}")
     
