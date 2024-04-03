@@ -21,14 +21,14 @@ class TestUploadDownload(BaseTest):
         # check if upload completed
         expected_header = 'File Uploaded!'
         err_header_msg = f'Actual message - {header}. Expected message - {expected_header}'
-        assert header == expected_header, err_header_msg and logs_for_tests.warning(err_header_msg)
+        assert header == expected_header, err_header_msg and logs_for_tests.error(err_header_msg)
 
         expected_file_name = file_upload_page.get_file_name()
         err_file_name_msg = f'Actual file name - {file_name}. Expected file name - {expected_file_name}'
-        assert file_name == expected_file_name, err_file_name_msg and logs_for_tests.warning(err_file_name_msg)
+        assert file_name == expected_file_name, err_file_name_msg and logs_for_tests.error(err_file_name_msg)
 
 
-    def test_download_page(self, driver, logs_for_tests):
+    def test_download_file(self, driver, logs_for_tests):
         home_page = HomePage(driver)
         
         # prepare a file to download
@@ -44,10 +44,10 @@ class TestUploadDownload(BaseTest):
         file_download_page.download_file(file_name)
 
         err_msg = 'File download failed'
-        assert file_download_page.file_on_a_disk(file_name), err_msg and logs_for_tests.warning(err_msg)
+        assert file_download_page.file_on_a_disk(file_name), err_msg and logs_for_tests.error(err_msg)
 
         # delete the file
         file_download_page.delete_downloaded_file(file_name)
         del_err_msg = 'File deletion failed!'
-        assert file_download_page.file_on_a_disk(file_name) == False, del_err_msg and logs_for_tests.warning(del_err_msg)
+        assert file_download_page.file_on_a_disk(file_name) == False, del_err_msg and logs_for_tests.error(del_err_msg)
 

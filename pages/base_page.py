@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -42,10 +41,10 @@ class BasePage:
             return element
         except NoSuchElementException as e:
             print('Cant find element - ', e)
-            BASEPAGE.warning(f'Cant find element - {e}')
+            BASEPAGE.error(f'Cant find element - {e}')
         except Exception as e:
             print('Non handled exception - ', e)
-            BASEPAGE.warning(f'Non handled exception - {e}')
+            BASEPAGE.error(f'Non handled exception - {e}')
 
 
     def get_elements_list(self, locator_name, locator_value):

@@ -8,7 +8,12 @@ Classes - methods.
     + add 8 elements on a page and remove 5 of them (delete from last added element).
 * TestUploadDownload
     + upload file and check header and file name on successful upload page;
-    + download file and check if file exists on a disk, delete file and check if file exists on a disk;
+    + download file and check if file exists on a disk, delete file and check if file exists on a disk.
+* TestBasicAuth
+    + basic auth handling.
+* TestBrokenImagesLinks
+    + find broken images;
+    + find broken links.
 
 ## Actions that I trained to automate:
 * open browser;
@@ -60,18 +65,12 @@ To make this action we should create the untility and use it after clicking on f
 import os
 import time
 
-def wait_for_download(download_path, timeout):
-    # Get the initial set of files in the directory
-    initial_files = set(os.listdir(download_path))
-    
-    # Wait until a new file appears or until timeout is reached
+def wait_for_download(download_path, file_name, timeout):
     start_time = time.time()
     while time.time() - start_time < timeout:
-        current_files = set(os.listdir(download_path))
-        new_files = current_files - initial_files
-        if new_files:
+        if os.path.exists(os.path.join(download_path, file_name)):
             return True
-        time.sleep(1)  # Check every second
+        time.sleep(1)
     return False
 ```
 
@@ -116,7 +115,10 @@ def delete_file(*file_path):
 ```
 
 * basic auth in window pop-up;  
-To make this action we should add login and password before the url, like - ```https://{login}:{pwd}@{url}```.
+To make this action we should add login and password before the url, like - ```https://{login}:{pwd}@{url}``` and go to this URL.
+
+* check for broken images/links;
+To make this action we should get a list of all images/likns on the page and use requests.get() method to access to these objects, if we got for example status_code >= 404, it is a broken image/link.
 
 ## Run
 To run tests and make an allure report, run first command in VSCode terminal and second in ```cmd``` from root project folder.

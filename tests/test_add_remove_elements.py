@@ -18,7 +18,7 @@ class TestAddRemoveElements(BaseTest):
         expected_elements_count = 4
         err_msg = f"Created elements count - {created_elements_count}, expected - {expected_elements_count}"
         
-        assert created_elements_count == expected_elements_count, err_msg and logs_for_tests.warning(err_msg)
+        assert created_elements_count == expected_elements_count, err_msg and logs_for_tests.error(err_msg)
 
 
     def test_remove_elements_from_a_page(self, driver, logs_for_tests):
@@ -30,7 +30,7 @@ class TestAddRemoveElements(BaseTest):
 
         expected_elements_count = 8
         err_msg = f"Created elements count - {created_elements_count}, expected - {expected_elements_count}"
-        assert created_elements_count == expected_elements_count, err_msg and logs_for_tests.warning(err_msg)
+        assert created_elements_count == expected_elements_count, err_msg and logs_for_tests.error(err_msg)
 
         add_remove_page.remove_n_elements(5)
         created_elements_count_after_removing = add_remove_page.get_added_elements_count()
@@ -40,4 +40,4 @@ class TestAddRemoveElements(BaseTest):
                   f"expected - {expected_elements_count_after_removing}"
         
         assert created_elements_count_after_removing == expected_elements_count_after_removing, \
-            err_msg and logs_for_tests.warning(err_msg)
+            err_msg and logs_for_tests.error(err_msg)

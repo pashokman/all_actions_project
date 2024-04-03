@@ -2,12 +2,14 @@
 https://the-internet.herokuapp.com/
 """
 
+import requests
+
 from pages.base_page import BasePage
 from pages.add_remove_elements_page import AddRemoveElementsPage
 from pages.file_upload_page import FileUploadPage
 from pages.file_download_page import FileDownloadPage
 from pages.basic_auth_page import BasicAuthPage
-
+from pages.broken_image_page import BrokenImagePage
 
 from utilities.logger import Logger
 
@@ -25,6 +27,8 @@ class HomePage(BasePage):
     ADD_REMOVE_ELEMENTS_PAGE_LINK_TEXT = 'Add/Remove Elements'
     FILE_UPLOAD_PAGE_LINK_TEXT = 'File Upload'
     FILE_DOWNLOAD_PAGE_LINK_TEXT = 'File Download'
+    BROKEN_IMAGE_LINK_TEXT = 'Broken Images'
+    LINKS_XPATH = '//a'
 
 
     def navigate_to_add_remove_elements_page(self):
@@ -49,3 +53,24 @@ class HomePage(BasePage):
         self.driver.get(f'https://{login}:{pwd}@the-internet.herokuapp.com/basic_auth')
         HOME_PAGE.debug('Navigation to basic auth page.')
         return BasicAuthPage(self.driver)
+
+
+    def navigate_to_broken_images_page(self):
+        self.element_click('BROKEN_IMAGE_LINK_TEXT', self.BROKEN_IMAGE_LINK_TEXT)
+        HOME_PAGE.debug('Navigation to broken images page.')
+        return BrokenImagePage(self.driver)
+
+
+    def find_broken_links_href(self):
+        links_list = self.get_elements_list('LINKS_XPATH', self.LINKS_XPATH)
+        result = []
+
+        for i in range(len(links_list)):
+            href = links_list[i].get_attribute('href')
+            response = requests.get(href)
+            
+            if response.status_code >= 404:
+                result.append(href)
+
+        HOME_PAGE.debug(f'Broken links href: {result}')
+        return result

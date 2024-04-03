@@ -22,10 +22,10 @@ class FileDownloadPage(BasePage):
 
     def download_file(self, file_name):
         self.element_click('FILE_DOWNLOAD_LINK_TEXT', file_name)
-        if wait_for_download(self.DOWNLOAD_FOLDER_PATH, timeout=5):
+        if wait_for_download(self.DOWNLOAD_FOLDER_PATH, file_name, timeout=5):
             FILE_DOWNLOAD.debug("Download completed successfully.")
         else:
-            FILE_DOWNLOAD.warning("Download failed or time out.")
+            FILE_DOWNLOAD.error("Download failed or time out.")
 
 
     def file_on_a_disk(self, file_name):
@@ -36,4 +36,4 @@ class FileDownloadPage(BasePage):
         if delete_file('files', 'download', file_name):
             FILE_DOWNLOAD.debug('File deleted.')
         else:
-            FILE_DOWNLOAD.warning('File deletion failed!')
+            FILE_DOWNLOAD.error('File deletion failed!')
