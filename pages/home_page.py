@@ -11,6 +11,7 @@ from pages.file_download_page import FileDownloadPage
 from pages.basic_auth_page import BasicAuthPage
 from pages.broken_image_page import BrokenImagePage
 from pages.checkboxes_page import CheckboxesPage
+from pages.context_menu_page import ContextMenuPage
 
 from utilities.logger import Logger
 
@@ -30,6 +31,7 @@ class HomePage(BasePage):
     FILE_DOWNLOAD_PAGE_LINK_TEXT = 'File Download'
     BROKEN_IMAGE_LINK_TEXT = 'Broken Images'
     CHECKBOXES_LINK_TEXT = 'Checkboxes'
+    CONTEXT_MENU_LINK_TEXT = 'Context Menu'
     LINKS_XPATH = '//a'
 
 
@@ -82,3 +84,9 @@ class HomePage(BasePage):
         self.element_click('CHECKBOXES_LINK_TEXT', self.CHECKBOXES_LINK_TEXT)
         HOME_PAGE.debug('Navigation to checkboxes page.')
         return CheckboxesPage(self.driver)
+
+
+    def navigate_to_context_menu_page(self):
+        self.element_click('CONTEXT_MENU_LINK_TEXT', self.CONTEXT_MENU_LINK_TEXT)
+        HOME_PAGE.debug('Navigation to context menu page.')
+        return ContextMenuPage(self.driver)

@@ -1,8 +1,8 @@
 from pages.base_page import BasePage
 
+from utilities.logger import Logger
 from utilities.work_with_files.get_specific_path import get_full_path
 from utilities.work_with_files.wait_file_for_download import wait_for_download
-from utilities.logger import Logger
 from utilities.work_with_files.is_file_path_exist import is_file_path_exist
 from utilities.work_with_files.delete_file import delete_file
 

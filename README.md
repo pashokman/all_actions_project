@@ -13,11 +13,15 @@ Classes - methods.
     + basic auth handling.
 * TestBrokenImagesLinks
     + find broken images;
-    + find broken links;
+    + find broken links/
 * TestCheckboxes
     + select checkboxes;
     + deselect checkboxes;
     + check if checkbox is checked.
+* TestContextMenuAndAlert
+    + right mouse button click;
+    + get alert text;
+    + accept alert.
 
 ## Actions that I trained to automate:
 * open browser;
@@ -125,7 +129,24 @@ To make this action we should add login and password before the url, like - ```h
 To make this action we should get a list of all images/likns on the page and use requests.get() method to access to these objects, if we got for example status_code >= 404, it is a broken image/link.
 
 * selects/deselect checkboxes or radio buttons;  
-To make this action we should check if checkbox/redao button is checked, using method - ```element.is_selected()``` and then make necessary action (click/pass).
+To make these action we should check if checkbox/redao button is checked, using method - ```element.is_selected()``` and then make necessary action (click/pass).
+
+* right click and alert handling;  
+To make these actions we should create an instances of ActionChain and Alert and work with these instances:
+```
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.alert import Alert
+
+def open_context_menu(self):
+    self.actionChains.context_click(self.get_element('MENU_AREA_ID', self.MENU_AREA_ID)).perform()
+    CONTEXT_MENU.debug('')
+
+def get_alert_message(self):
+    return self.alert.text
+
+def accept_the_alert(self):
+    self.alert.accept()
+```
 
 ## Run
 To run tests and make an allure report, run first command in VSCode terminal and second in ```cmd``` from root project folder.

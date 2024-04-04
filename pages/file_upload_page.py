@@ -1,9 +1,9 @@
 from pages.base_page import BasePage
 from pages.file_upload_successful_page import FileUploadSuccessfulPage
 
+from utilities.logger import Logger
 from utilities.work_with_files.get_specific_path import get_full_path
 from utilities.work_with_files.file_name import get_file_name_from_path
-from utilities.logger import Logger
 
 
 logger_instance = Logger(log_name='File upload page')
