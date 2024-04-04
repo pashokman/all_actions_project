@@ -8,12 +8,16 @@ Classes - methods.
     + add 8 elements on a page and remove 5 of them (delete from last added element).
 * TestUploadDownload
     + upload file and check header and file name on successful upload page;
-    + download file and check if file exists on a disk, delete file and check if file exists on a disk.
+    + download file and check if file exists on a disk, delete file and check if file disapired from a disk.
 * TestBasicAuth
     + basic auth handling.
 * TestBrokenImagesLinks
     + find broken images;
-    + find broken links.
+    + find broken links;
+* TestCheckboxes
+    + select checkboxes;
+    + deselect checkboxes;
+    + check if checkbox is checked.
 
 ## Actions that I trained to automate:
 * open browser;
@@ -117,8 +121,11 @@ def delete_file(*file_path):
 * basic auth in window pop-up;  
 To make this action we should add login and password before the url, like - ```https://{login}:{pwd}@{url}``` and go to this URL.
 
-* check for broken images/links;
+* check for broken images/links;  
 To make this action we should get a list of all images/likns on the page and use requests.get() method to access to these objects, if we got for example status_code >= 404, it is a broken image/link.
+
+* selects/deselect checkboxes or radio buttons;  
+To make this action we should check if checkbox/redao button is checked, using method - ```element.is_selected()``` and then make necessary action (click/pass).
 
 ## Run
 To run tests and make an allure report, run first command in VSCode terminal and second in ```cmd``` from root project folder.
