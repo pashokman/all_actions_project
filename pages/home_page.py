@@ -12,6 +12,7 @@ from pages.basic_auth_page import BasicAuthPage
 from pages.broken_image_page import BrokenImagePage
 from pages.checkboxes_page import CheckboxesPage
 from pages.context_menu_page import ContextMenuPage
+from pages.geolocation_page import GeolocationPage
 
 from utilities.logger import Logger
 
@@ -32,6 +33,7 @@ class HomePage(BasePage):
     BROKEN_IMAGE_LINK_TEXT = 'Broken Images'
     CHECKBOXES_LINK_TEXT = 'Checkboxes'
     CONTEXT_MENU_LINK_TEXT = 'Context Menu'
+    GEOLOCATION_LINK_TEXT = 'Geolocation'
     LINKS_XPATH = '//a'
 
 
@@ -90,3 +92,9 @@ class HomePage(BasePage):
         self.element_click('CONTEXT_MENU_LINK_TEXT', self.CONTEXT_MENU_LINK_TEXT)
         HOME_PAGE.debug('Navigation to context menu page.')
         return ContextMenuPage(self.driver)
+
+
+    def navigate_to_geolocation_page(self):
+        self.element_click('GEOLOCATION_LINK_TEXT', self.GEOLOCATION_LINK_TEXT)
+        HOME_PAGE.debug('Navigation to geolocation page.')
+        return GeolocationPage(self.driver)

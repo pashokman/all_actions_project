@@ -22,6 +22,8 @@ Classes - methods.
     + right mouse button click;
     + get alert text;
     + accept alert.
+* TestGeolocation
+    + find geolocation and compate it vs expeced.
 
 ## Actions that I trained to automate:
 * open browser;
@@ -146,6 +148,34 @@ def get_alert_message(self):
 
 def accept_the_alert(self):
     self.alert.accept()
+```
+
+* geolocation handling;  
+To work with geolocation we should add additional options for our drivers in ```conftest.py``` and accept promts.
+```
+    if request.param == "chrome":
+        chrome_options = COptions()
+        chrome_options.add_argument("--disable-infobars")
+        # Pass the argument 1 to allow and 2 to block
+        chrome_options.add_experimental_option("prefs", { \
+            "profile.default_content_setting_values.geolocation": 1, 
+        })
+        driver = webdriver.Chrome(options=chrome_options)
+    elif request.param == "firefox":
+        # Set the preference to allow geolocation
+        firefox_options.set_preference("geo.enabled", True)
+        firefox_options.set_preference("geo.prompt.testing", True)
+        firefox_options.set_preference("geo.prompt.testing.allow", True)
+        # SET COORDINATES MANUALLY
+        firefox_options.set_preference('geo.provider.network.url',
+            'data:application/json,{"location": {"lat": 48.699, "lng": 26.584}, "accuracy": 100.0}')
+        driver = webdriver.Firefox(options=firefox_options)
+    elif request.param == "edge":
+        edge_options = EOptions()
+        edge_options.add_argument("--enable-features=AllowGeolocationOnInsecureOrigins")
+        driver = webdriver.Edge(options=edge_options)
+    else:
+        raise ValueError(f"Unsupported browser: {request.param}")
 ```
 
 ## Run

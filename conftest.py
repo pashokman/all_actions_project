@@ -42,6 +42,15 @@ def driver(request):
     global driver
     if request.param == "chrome":
         chrome_options = COptions()
+        chrome_options.add_argument("--disable-infobars")
+        chrome_options.add_argument("--disable-extensions")
+        # Pass the argument 1 to allow and 2 to block
+        chrome_options.add_experimental_option("prefs", { \
+            # "profile.default_content_setting_values.media_stream_mic": 1, 
+            # "profile.default_content_setting_values.media_stream_camera": 1,
+            "profile.default_content_setting_values.geolocation": 1, 
+            # "profile.default_content_setting_values.notifications": 1 
+        })
         chrome_options.add_experimental_option('prefs', {'download.default_directory': FILES_FOLDER_PATH})
         driver = webdriver.Chrome(options=chrome_options)
     elif request.param == "firefox":
@@ -50,10 +59,18 @@ def driver(request):
         firefox_options.set_preference('browser.download.manager.showWhenStarting', False)
         firefox_options.set_preference('browser.download.dir', FILES_FOLDER_PATH)
         firefox_options.set_preference('browser.helperApps.neverAsk.saveToDisk', 'application/pdf')
+        # Set the preference to allow geolocation
+        firefox_options.set_preference("geo.enabled", True)
+        firefox_options.set_preference("geo.prompt.testing", True)
+        firefox_options.set_preference("geo.prompt.testing.allow", True)
+        # SET COORDINATES MANUALLY
+        firefox_options.set_preference('geo.provider.network.url',
+            'data:application/json,{"location": {"lat": 48.699, "lng": 26.584}, "accuracy": 100.0}')
         driver = webdriver.Firefox(options=firefox_options)
     elif request.param == "edge":
         edge_options = EOptions()
         edge_options.add_experimental_option('prefs', {'download.default_directory': FILES_FOLDER_PATH})
+        edge_options.add_argument("--enable-features=AllowGeolocationOnInsecureOrigins")
         driver = webdriver.Edge(options=edge_options)
     else:
         raise ValueError(f"Unsupported browser: {request.param}")
