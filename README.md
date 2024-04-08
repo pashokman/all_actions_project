@@ -209,6 +209,7 @@ else:
 <details>
 
 To work with sliders we should use ```ActionChains - drag_and_drop_by_offset``` method.
+!!!IMPORTANT!!! In firefox browser should pick up different coordinates than in chrome and edge.
 ```
 ActionChains(driver)\
     .drag_and_drop_by_offset(element, Xpixels, Ypixels)\

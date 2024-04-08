@@ -11,7 +11,7 @@ class TestHorizontalSlider(BaseTest):
         home_page = HomePage(driver)
 
         horizontal_slider_page = home_page.navigate_to_horizontal_slider_page()
-        exp_value = 4
+        exp_value = 0.5
         horizontal_slider_page.move_slider_element(exp_value)
         curr_value = horizontal_slider_page.get_slider_value()
 

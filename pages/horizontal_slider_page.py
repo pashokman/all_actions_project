@@ -20,7 +20,10 @@ class HorizontalSliderPage(BasePage):
 
 
     def move_slider_element(self, n):
-        matching = {0.5: -40, 1: -30, 1.5: -20, 2: -10, 2.5: 0, 3: 10, 3.5: 20, 4: 30, 4.5: 50, 5: 60}
+        if self.driver.name == 'firefox':
+            matching = {0.5: -70, 1: -60, 1.5: -40, 2: -10, 2.5: 0, 3: 10, 3.5: 29, 4: 50, 4.5: 70, 5: 80}
+        else:
+            matching = {0.5: -40, 1: -30, 1.5: -20, 2: -10, 2.5: 0, 3: 10, 3.5: 20, 4: 30, 4.5: 50, 5: 60}
         element = self.get_element('HOR_SLIDER_INTUP_XPATH', self.HOR_SLIDER_INTUP_XPATH)
         ActionChains(self.driver)\
             .drag_and_drop_by_offset(element, matching[n], 0)\
@@ -29,6 +32,6 @@ class HorizontalSliderPage(BasePage):
 
 
     def get_slider_value(self):
-        value = int(self.retrive_element_text('HOR_SLIDER_SPAN_XPATH', self.HOR_SLIDER_SPAN_XPATH))
+        value = float(self.retrive_element_text('HOR_SLIDER_SPAN_XPATH', self.HOR_SLIDER_SPAN_XPATH))
         HOR_SLIDER.debug(f'Got slider value - {value}')
         return value
