@@ -14,6 +14,7 @@ from pages.checkboxes_page import CheckboxesPage
 from pages.context_menu_page import ContextMenuPage
 from pages.geolocation_page import GeolocationPage
 from pages.horizontal_slider_page import HorizontalSliderPage
+from pages.hovers_page import HoversPage
 
 from utilities.logger import Logger
 
@@ -36,6 +37,7 @@ class HomePage(BasePage):
     CONTEXT_MENU_LINK_TEXT = 'Context Menu'
     GEOLOCATION_LINK_TEXT = 'Geolocation'
     HORIZONTAL_SLIDER_LINK_TEXT = 'Horizontal Slider'
+    HOVERS_LINK_TEXT = 'Hovers'
     LINKS_XPATH = '//a'
 
 
@@ -106,3 +108,9 @@ class HomePage(BasePage):
         self.element_click('HORIZONTAL_SLIDER_LINK_TEXT', self.HORIZONTAL_SLIDER_LINK_TEXT)
         HOME_PAGE.debug('Navigation to horizontal slider page.')
         return HorizontalSliderPage(self.driver)
+
+
+    def navigate_to_hovers_page(self):
+        self.element_click('HOVERS_LINK_TEXT', self.HOVERS_LINK_TEXT)
+        HOME_PAGE.debug('Navigation to hovers page.')
+        return HoversPage(self.driver)

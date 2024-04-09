@@ -27,6 +27,8 @@ Classes - methods.
 * TestHorizontalSlider
     + test_slide_to_the_right;
     + test_slide_to_the_left.
+* TestHovers
+    + test_click_on_hover_element.
 
 ## Actions that I trained to automate:
 * open browser;
@@ -209,7 +211,7 @@ else:
 <details>
 
 To work with sliders we should use ```ActionChains - drag_and_drop_by_offset``` method.
-!!!IMPORTANT!!! In firefox browser should pick up different coordinates than in chrome and edge.
+!!!IMPORTANT!!! In firefox browser we should pick up different coordinates than in chrome and edge.
 ```
 ActionChains(driver)\
     .drag_and_drop_by_offset(element, Xpixels, Ypixels)\
@@ -217,6 +219,15 @@ ActionChains(driver)\
 ```
 </details>
 
+* hovers handling;  
+<details>
+
+To work with hovers we should use ```ActionChains - move_to_element``` method. First things first we should move to main element, than we should find next element and move to it... 
+```
+actions = ActionChains(driver)
+actions.move_to_element(users[user_number-1]).perform()
+```
+</details>
 
 ## Run
 To run tests and make an allure report, run first command in VSCode terminal and second in ```cmd``` from root project folder.
