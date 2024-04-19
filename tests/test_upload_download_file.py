@@ -43,11 +43,11 @@ class TestUploadDownload(BaseTest):
         file_download_page = home_page.navigate_to_file_download_page()
         file_download_page.download_file(file_name)
 
-        err_msg = 'File download failed'
+        err_msg = f'File - "{file_name}" download failed'
         assert file_download_page.file_on_a_disk(file_name), err_msg and logs_for_tests.error(err_msg)
 
         # delete the file
         file_download_page.delete_downloaded_file(file_name)
-        del_err_msg = 'File deletion failed!'
+        del_err_msg = f'File - "{file_name}" deletion failed!'
         assert file_download_page.file_on_a_disk(file_name) == False, del_err_msg and logs_for_tests.error(del_err_msg)
 

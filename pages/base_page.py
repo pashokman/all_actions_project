@@ -3,6 +3,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from utilities.work_with_files.get_specific_path import get_full_path
 from utilities.logger import Logger
 
 
@@ -18,6 +19,9 @@ class BasePage:
 
     def open_page(self, url):
         self.driver.get(url)
+
+
+    DOWNLOAD_FOLDER_PATH = get_full_path('files', 'download')
 
 
     def get_element(self, locator_name, locator_value):

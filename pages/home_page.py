@@ -15,6 +15,8 @@ from pages.context_menu_page import ContextMenuPage
 from pages.geolocation_page import GeolocationPage
 from pages.horizontal_slider_page import HorizontalSliderPage
 from pages.hovers_page import HoversPage
+from pages.jquery_ui_menu_page import JQueryUIMenuPage
+from pages.js_alerts_page import JSAlertsPage
 
 from utilities.logger import Logger
 
@@ -38,6 +40,8 @@ class HomePage(BasePage):
     GEOLOCATION_LINK_TEXT = 'Geolocation'
     HORIZONTAL_SLIDER_LINK_TEXT = 'Horizontal Slider'
     HOVERS_LINK_TEXT = 'Hovers'
+    JQUERY_MENUS_LINK_TEXT = 'JQuery UI Menus'
+    JSALERTS_LINK_TEXT = 'JavaScript Alerts'
     LINKS_XPATH = '//a'
 
 
@@ -114,3 +118,15 @@ class HomePage(BasePage):
         self.element_click('HOVERS_LINK_TEXT', self.HOVERS_LINK_TEXT)
         HOME_PAGE.debug('Navigation to hovers page.')
         return HoversPage(self.driver)
+
+
+    def navigate_to_jquery_ui_menu_page(self):
+        self.element_click('JQUERY_MENUS_LINK_TEXT', self.JQUERY_MENUS_LINK_TEXT)
+        HOME_PAGE.debug('Navigation to jquery ui menu page.')
+        return JQueryUIMenuPage(self.driver)
+
+
+    def navigate_to_js_alerts_page(self):
+        self.element_click('JSALERTS_LINK_TEXT', self.JSALERTS_LINK_TEXT)
+        HOME_PAGE.debug('Navigation to JS alerts page.')
+        return JSAlertsPage(self.driver)
